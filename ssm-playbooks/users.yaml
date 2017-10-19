@@ -1,0 +1,61 @@
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  # User List
+  admin_list:
+    - name: "Adam Lash"
+      username: "adam.lash"
+      keys:
+        active:
+          - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDA7s8InPvVcoY3Fwx6ieHTCn1DqvvzWc+F10G/JS53FoNsnodDbneqm58w8EUbqM4hQuCdtt69FvT86PCcggtVcLesNOZM2x9lhu0M6+5/vZmSpGEbA6wNxFkyzJWPUMIfa5cjVZ4X3bxhjns/c5LqcyE58l98AXksrwmtQ0Er/umfkPdnH3eS9U8ovCP9DIFGMYw89OM+xVeq1xumDTbTZcTyeL7MTsXuiupk+2zTizrPzf1Lf18FdJxq8t5HwP7EQAGHFHVIIdIkc+lxhm96iH07cAUmqlBt3YUlc59754kqpiO5MjMIheYifDGrNKuhuncR0JdW8XTaAOAitMOFcd9VczScCjiDQ6SYXVBYUIJ+lhAawynix/gt4q25QG5v+/nRoj2pG/Vu0w03r4CDP+WzGjG1Ko4qyi5M3zI4bP+qdiEKkZBs7E2k2Py+vR3obwdGr1eo3Gw+bXCrj+n5RQZMrKassp6n3qcpixZvZHnjiS9Udjwflgn/j+xcXXj3P5Yytffp1OLWrcZvtcgxLCAtupVpuJoa0+3yWUV/fUyROl1/OCHQEYkeWiyU8tKi1GXDZFZKqKKglmTPLk+Qq536sumwVAaCpOxwsO4KRbqcqcPlqPwx3tt9WSMNpE16fQXs6N5H6WuKNW/k3RL6UpSQZn7ys4/GvFRgm5UnRQ== adam.lashh@gmail.com"
+      shell: "/bin/bash"
+      state: present
+
+    - name: "Example Person"
+      username: "example-quitted-person"
+      state: absent
+  tasks:
+    #Create Admin Group and configure for sudoers
+    - name: Create admin group
+      group: name=infra_admins state=present
+
+    - name: Add admin group to sudoers
+      lineinfile: dest=/etc/sudoers regexp="^%infra_admins" line="%infra_admins ALL=(ALL) NOPASSWD:ALL"
+
+    - name: Disable Requiretty from sudoers
+      lineinfile: dest=/etc/sudoers regexp="Defaults    requiretty" line="#Defaults    requiretty"
+    #Create New Users
+    - name: Setup all users
+      user:
+        name: "{{ item.username }}"
+        state: "{{ item.state | default('present') }}"
+        shell: "{{ item.shell | default('/bin/bash') }}"
+        group: "infra_admins"
+        remove: yes
+      when: item.username is defined
+      with_items:
+        - "{{ admin_list }}"
+
+    - name: Add SSH-keys to users
+      authorized_key:
+        user: "{{ item.0.username }}"
+        key: "{{ item.1 }}"
+      with_subelements:
+        - "{{ admin_list }}"
+        - keys.active
+        - flags:
+          skip_missing: True
+      when: item.0.state != "absent"
+
+    - name: Remove old SSH-keys from users
+      authorized_key:
+        user: "{{ item.0.username }}"
+        key: "{{ item.1 }}"
+        state: absent
+      with_subelements:
+        - "{{ admin_list }}"
+        - keys.disabled
+        - flags:
+          skip_missing: True
+      when: item.0.state != "absent"
+    tags: ['debug']
