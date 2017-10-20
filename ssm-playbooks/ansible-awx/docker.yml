@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: "Install Pre Req Packages"
+      apt: name={{ item }} state=present update_cache=yes
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: "Add Docker Apt-Key"
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: "Add Docker Repo"
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: "Install Docker"
+      apt: name={{ item }} state=present update_cache=yes
+      with_items:
+        - docker-ce
+
+    - name: "Install Docker Python Tools"
+      pip:
+        name: docker-py
