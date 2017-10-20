@@ -28,4 +28,4 @@
 
     - name: "Install Docker Python Tools"
       pip:
-        name: docker-py
+        name: docker
