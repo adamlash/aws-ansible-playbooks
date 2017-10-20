@@ -20,16 +20,19 @@
       group: name=infra_admins state=present
 
     - name: Add admin group to sudoers
-      lineinfile: dest=/etc/sudoers regexp="^%infra_admins" line="%infra_admins ALL=(ALL) NOPASSWD:ALL"
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: "^%infra_admins"
+        line: "%infra_admins ALL=(ALL) NOPASSWD: ALL"
+        validate: visudo -cf %s
 
-    - name: Disable Requiretty from sudoers
-      lineinfile: dest=/etc/sudoers regexp="Defaults    requiretty" line="#Defaults    requiretty"
     #Create New Users
     - name: Setup all users
       user:
         name: "{{ item.username }}"
-        state: "{{ item.state | default('present') }}"
-        shell: "{{ item.shell | default('/bin/bash') }}"
+        state: "{{ item.state }}"
+        shell: "{{ item.shell }}"
         group: "infra_admins"
         remove: yes
       when: item.username is defined
@@ -58,4 +61,3 @@
         - flags:
           skip_missing: True
       when: item.0.state != "absent"
-    tags: ['debug']
