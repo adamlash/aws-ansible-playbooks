@@ -5,5 +5,5 @@ git clone https://github.com/ansible/awx.git
 # Jump into the ansible install dir and run the installer.
 cd awx/installer
 # change the postgres install location, so it doesn't get wiped on boot.
-sed -i 's/postgres_data_dir=\/tmp\/pgdocker/postgres_data_dir=\/data\/pgdocker/' testinventory
+sed -i 's/postgres_data_dir=\/tmp\/pgdocker/postgres_data_dir=\/data\/pgdocker/' inventory
 ansible-playbook -i inventory install.yml
