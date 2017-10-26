@@ -8,6 +8,10 @@
     shell: ec2metadata --instance-id
     register: instance_id
 
+  - ec2_instance_facts:
+      instance_ids:
+        - {{ instance_id }}
+
   - name: "Show Instance ID and other Facts Gathered"
     debug:
-      msg: "My Instance ID is: {{ instance_id }} My Instance tags are: {{ tags }}"
+      msg: "My Instance ID is: {{ instance_id }}"
