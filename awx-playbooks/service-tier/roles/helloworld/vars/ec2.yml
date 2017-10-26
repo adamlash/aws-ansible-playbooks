@@ -1,0 +1,9 @@
+---
+  tasks:
+    - name: "Set Instance ID Var"
+      shell: ec2metadata --instance-id
+      register: instance_id
+
+    - ec2_instance_facts:
+        instance_ids:
+          - {{ instance_id }}
