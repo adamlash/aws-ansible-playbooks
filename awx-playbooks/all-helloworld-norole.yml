@@ -1,13 +1,11 @@
 ---
 - hosts: all
-  become: yes
-  become_method: sudo
-  tasks:
-
+  pre_tasks:
   - name: "Set Instance ID Var"
     shell: ec2metadata --instance-id
     register: instance_id
-
+    
+  tasks:
   - name: "Show Instance ID"
     debug:
       msg: "My Instance ID is: {{ instance_id.stdout }}"
