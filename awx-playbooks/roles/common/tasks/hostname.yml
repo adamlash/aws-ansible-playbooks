@@ -1,0 +1,4 @@
+---
+- name: "set hostname to instance-id in AWS"
+  timezone:
+    name: America/Toronto
