@@ -1,4 +1,11 @@
 ---
-- name: "set hostname to instance-id in AWS"
-  timezone:
-    name: America/Toronto
+- name: "Set Hostname on Servers"
+  hosts: all
+  tasks:
+    - name: "Set the instance ID for the play"
+      shell: ec2metadata --instance-id
+        register: instance_id
+
+    - name: "Change Hostname to Instance-ID"
+      hostname:
+        name: "{{ instance_id.stdout }}"

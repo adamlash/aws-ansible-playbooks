@@ -1,4 +1,4 @@
 ---
 - name: "set timezone to America/Toronto"
   timezone:
-    name: America/Toronto
+    name: {{ default_timezone }}
