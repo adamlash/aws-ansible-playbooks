@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+
+  - name: "Set Instance ID Var"
+    shell: ec2metadata --instance-id
+    register: instance_id
+
+  - name: "Show Instance ID and other Facts Gathered"
+    debug:
+      msg: "My Instance ID is: {{ instance_id }} My Instance tags are: {{ tags }}"
