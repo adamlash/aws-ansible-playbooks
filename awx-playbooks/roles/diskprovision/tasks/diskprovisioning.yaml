@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: "Configure/Confirm Directory Structure"
+      file: path=/data state=directory owner=root group=root mode=0775 recurse=yes
+
+    - name: "Create Filesystem for Disk"
+      filesystem:
+        fstype: ext4
+        dev: /dev/xvdh
+
+    - name: "Mount Disk"
+      mount:
+        path: /data
+        src: /dev/xvdh
+        fstype: ext4
+        state: mounted

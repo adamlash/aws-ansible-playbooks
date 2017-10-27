@@ -2,4 +2,4 @@
 - name: "set timezone to America/Toronto"
   hosts: all
   timezone:
-    name: {{ default_timezone }}
+    name: {{ timezone }}

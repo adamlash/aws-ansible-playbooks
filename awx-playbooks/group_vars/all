@@ -1,1 +1,9 @@
-default_timezone: America/Toronto
+---
+# roles/common vars
+timezone: America/Toronto
+
+# roles/diskprovision vars
+mountpath: /data
+permissions: 0775
+recurse: yes
+physicalmount: /dev/xvdh
