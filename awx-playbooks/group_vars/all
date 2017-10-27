@@ -5,5 +5,5 @@ timezone: America/Toronto
 # roles/diskprovision vars
 mountpath: /data
 permissions: 0775
-recurse: yes
+recurse: no
 physicalmount: /dev/xvdh
