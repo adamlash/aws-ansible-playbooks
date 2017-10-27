@@ -1,7 +1,0 @@
----
-- hosts:  tag_Name_al_testan_3
-  roles:
-    - common
-    - diskprovision
-    - geerlingguy.java
-    - geerlingguy.jenkins

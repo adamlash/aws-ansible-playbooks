@@ -1,9 +1,0 @@
----
-# roles/common vars
-timezone: America/Toronto
-
-# roles/diskprovision vars
-mountpath: /data
-permissions: 0775
-recurse: no
-physicalmount: /dev/xvdh
