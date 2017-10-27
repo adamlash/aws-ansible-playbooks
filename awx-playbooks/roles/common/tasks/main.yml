@@ -1,5 +1,5 @@
 ---
-- name: "Set Hostname on Servers"
+- name: "Basic first-run provisioning setup for servers"
   hosts: all
   tasks:
     - name: "Set the instance ID for the play"
@@ -9,7 +9,12 @@
     - name: "Show Instance ID"
       debug:
         msg: "My Instance ID is: {{ instance_id.stdout }}"
-        
+
     - name: "Change Hostname to Instance-ID"
       hostname:
         name: "{{ instance_id.stdout }}"
+
+    - name: "set timezone to America/Toronto"
+      hosts: all
+      timezone:
+        name: {{ timezone }}

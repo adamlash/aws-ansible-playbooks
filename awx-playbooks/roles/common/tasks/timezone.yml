@@ -1,5 +1,0 @@
----
-- name: "set timezone to America/Toronto"
-  hosts: all
-  timezone:
-    name: {{ timezone }}
