@@ -14,7 +14,7 @@
       hostname:
         name: "{{ instance_id.stdout }}"
 
-    - name: "set timezone to America/Toronto"
+    - name: "set timezone"
       hosts: all
       timezone:
-        name: {{ timezone }}
+        name: "{{ timezone }}"
