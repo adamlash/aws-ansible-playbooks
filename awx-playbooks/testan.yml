@@ -3,3 +3,5 @@
   roles:
     - common
     - diskprovision
+    - geerlingguy.java
+    - geerlingguy.jenkins

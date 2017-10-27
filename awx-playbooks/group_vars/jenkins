@@ -1,0 +1,4 @@
+# https://github.com/geerlingguy/ansible-role-jenkins vars
+jenkins_package_state: latest
+jenkins_admin_username: admin
+jenkins_admin_password: admin123
