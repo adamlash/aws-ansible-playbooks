@@ -1,6 +1,6 @@
 ---
 - name: "Configure/Confirm Directory Structure"
-  file: path="{{ mountpath }}" state=directory owner=root group=root mode="{{ permissions }}" recurse= "{{ recurse }}"
+  file: path="{{ mountpath }}" state=directory owner=root group=root mode="{{ permissions }}" recurse="{{ recurse }}"
 
 - name: "Create Filesystem for Disk"
   filesystem:
