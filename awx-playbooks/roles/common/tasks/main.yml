@@ -4,7 +4,7 @@
   tasks:
     - name: "Set the instance ID for the play"
       shell: ec2metadata --instance-id
-        register: instance_id
+      register: instance_id
 
     - name: "Show Instance ID"
       debug:
